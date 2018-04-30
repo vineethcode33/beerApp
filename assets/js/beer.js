@@ -14,11 +14,10 @@ $.ajax({
 
 // write results to html
 function writeDiv(data){
-	console.log(data);
 	if (data.length != 0){
 	$('.container').empty();
 	$.each( data, function(index,value){
-		writeBeer(value);
+		writeBeer(index,value);
 	});}
 	else{
 		window.alert('Thats all I can give you! Bye Now.');
@@ -36,16 +35,24 @@ function writeDiv(data){
 	}
 	}
 
-function writeBeer(beerData){
-	var sendData = "<div class='beer'>";
-	sendData +="<img class ='beer-img' src='"+beerData.image_url+"'>";
+function writeBeer(beerNumber,beerData){
+	var sendData = "<div class='beer' id='beer_no_"+beerNumber+"''>";
+	sendData +="<img class ='beer-img'  src='"+beerData.image_url+"'>";
 	sendData +="<ul><li>Name: <span class='apiData'>"+ beerData.name+"</span></li>";
 	sendData +="<li>TagLine: <span class='apiData'>"+ beerData.tagline+"</span></li>";
 	sendData +="<li>First Brewed: <span class='apiData'>"+ beerData.first_brewed+"</span></li>";
-	sendData +="<li>ABV: <span class='apiData'>"+ beerData.abv+"</span></li></ul></div>";
+	sendData +="<li>ABV: <span class='apiData'>"+ beerData.abv+"%</span></li></ul></div>";
 
 	$('.container').append(sendData);
 }
+
+//hover animations for beers
+$('document').on('click','.beer',function(){
+	window.alert("you clicked");
+	// window.alert($(this).attr('id'));
+	// $(this).css('background-color', 'red');
+});
+
 
 requestPunk(writeDiv, urlRequest);
 
@@ -58,7 +65,6 @@ $("button").on('click', function(event){
 	} else if (clickedBtn ==='Next'){
 		pageCounter +=1;
 		urlRequest = 'https://api.punkapi.com/v2/beers?page='+pageCounter+'&per_page=24';
-		console.log(urlRequest);
 		requestPunk(writeDiv, urlRequest);
 	};
-})
+});
