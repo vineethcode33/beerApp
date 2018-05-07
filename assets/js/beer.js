@@ -17,8 +17,11 @@ function writeDiv(data){
 	if (data.length != 0){
 	$('.container').empty();
 	$.each( data, function(index,value){
-		writeBeer(index,value);
-	});}
+	writeBeer(index,value);
+		
+	});
+	eventClick();
+}
 	else{
 		window.alert('Thats all I can give you! Bye Now.');
 	}
@@ -44,14 +47,28 @@ function writeBeer(beerNumber,beerData){
 	sendData +="<li>ABV: <span class='apiData'>"+ beerData.abv+"%</span></li></ul></div>";
 
 	$('.container').append(sendData);
+	
 }
 
-//hover animations for beers
-$('document').on('click','.beer',function(){
-	window.alert("you clicked");
-	// window.alert($(this).attr('id'));
-	// $(this).css('background-color', 'red');
-});
+function eventClick (){
+	$("[id^='beer_no_']").on('click',function(){
+ 	var clicekedId = $(this).attr("id");
+
+ 	var clickedValue = $('#'+clickedId+' > li').val();
+ 	if($('#lightbox').lenght > 0){
+ 		var lightbox = false;
+ 	}
+ 	else{
+ 		var lightBox = 
+ 		"<div id='lightbox'>" + clickedValue
+ 		+"</div>"
+ 		$('body').empty();
+ 		$('body').append(lightBox);
+
+ 	}
+
+	});
+}
 
 
 requestPunk(writeDiv, urlRequest);
@@ -68,3 +85,25 @@ $("button").on('click', function(event){
 		requestPunk(writeDiv, urlRequest);
 	};
 });
+
+
+//saeerch logic
+$('input').on('keypress', function(event){
+	if (event.which===13){
+	var searchPrahse = $(this).val();
+	urlRequest = 'https://api.punkapi.com/v2/beers?beer_name='+ searchPrahse;
+	requestPunk(writeDiv, urlRequest); 
+	}
+});
+
+
+
+
+
+
+
+
+
+
+
+

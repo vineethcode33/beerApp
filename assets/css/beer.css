@@ -84,3 +84,12 @@ input{
 	display: none;
 }
 
+.sub-navs a{
+	float:right;
+	margin: 6px 50px;
+	padding: 4px;
+	color: white;
+	font-family: 'Roboto', sans-serif;
+	text-decoration: none;
+}
+
